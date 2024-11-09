@@ -5,11 +5,11 @@ import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism.css';
 import axios from 'axios';
-import 'prismjs/components/prism-java';
+//import 'prismjs/components/prism-java';
 import '../App.css';
 
 function Compiler() {
-  const [code, setCode] = useState(`
+  /*const [code, setCode] = useState(`
     import java.util.*;
     public class Main { 
       public static void main(String[] args) { 
@@ -29,16 +29,43 @@ function Compiler() {
       language: 'java',
       code,
       input // Pass input along with the code to the backend
-    };
+    }; */
+    const [code, setCode] = useState(`#include <iostream> 
+      using namespace std;
+      // Define the main function
+      int main() { 
+          // Declare variables
+          int num1, num2, sum;
+          // Prompt user for input
+          cin >> num1 >> num2;  
+          // Calculate the sum
+          sum = num1 + num2;  
+          // Output the result
+          cout << "The sum of the two numbers is: " << sum;  
+          // Return 0 to indicate successful execution
+          return 0;  
+      }`);
+    const [input, setInput] = useState('');
+    const [output, setOutput] = useState('');
+  
+    const handleSubmit = async () => {
+      const payload = {
+        language: 'cpp',
+        code,
+        input
+      };
 
-    try {
-      const { data } = await axios.post('http://localhost:8080/run', payload);
-      setOutput(data.output);
-    } catch (error) {
-      console.log(error.response);
+     try {
+    const { data } = await axios.post('http://localhost:8080/run', payload);
+    setOutput(data.output || '');  // Handle undefined output
+  } catch (error) {
+    if (error.response && error.response.data.error) {
+      setOutput(`Error: ${error.response.data.error}`);
+    } else {
       setOutput('Error executing code');
     }
-  };
+  }
+};
 
   return (
     <div className="container mx-auto py-8 flex flex-col items-center">
@@ -55,7 +82,8 @@ function Compiler() {
           <Editor
             value={code}
             onValueChange={(code) => setCode(code)}
-            highlight={(code) => highlight(code, languages.java)}
+            //highlight={(code) => highlight(code, languages.java)}
+            highlight={code => highlight(code, languages.js)}
             padding={10}
             style={{
               fontFamily: '"Fira code", "Fira Mono", monospace',
