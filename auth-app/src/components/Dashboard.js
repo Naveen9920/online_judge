@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
@@ -102,6 +102,76 @@ const Dashboard = () => {
             </div>
             
             
+        </div>
+    );
+};
+
+export default Dashboard;
+*/
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+
+const Dashboard = () => {
+    const navigate = useNavigate();
+    const userId = Cookies.get('userId');
+    const userEmail = Cookies.get('userEmail');
+
+    const headerStyle = {
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '100%',
+        padding: '20px',
+        backgroundColor: '#f5f5f5',
+        fontFamily: 'Arial, sans-serif',
+    };
+
+    const buttonContainerStyle = {
+        display: 'flex',
+        gap: '10px', // Adjust gap between buttons
+    };
+
+    const buttonStyle = {
+        padding: '10px 20px',
+        fontSize: '1rem',
+        fontWeight: 'bold',
+        color: '#fff',
+        backgroundColor: '#0d6efd',
+        border: 'none',
+        borderRadius: '8px',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s',
+    };
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/logout', {
+                method: 'POST',
+                credentials: 'include',
+            });
+            if (!response.ok) {
+                throw new Error('Logout failed: ' + response.statusText);
+            }
+            navigate('/login');
+        } catch (error) {
+            console.error('Error during logout:', error);
+            alert('Logout failed. Please try again.');
+        }
+    };
+
+    return (
+        <div style={{ minHeight: '100vh' }}>
+            <header style={headerStyle}>
+                <div style={buttonContainerStyle}>
+                    <button style={buttonStyle} onClick={() => navigate('/problems')}>Coding Problems</button>
+                    <button style={buttonStyle} onClick={() => navigate('/competitions')}>Competitions</button>
+                    <button style={buttonStyle} onClick={() => navigate('/compiler')}>Code Compiler</button>
+                </div>
+                <button style={{ ...buttonStyle, backgroundColor: '#f56565' }} onClick={handleLogout}>Logout</button>
+            </header>
+            <main className="flex justify-center items-center min-h-screen">
+                <h2 className="text-3xl font-semibold text-indigo-600">Welcome to Your Dashboard, {userEmail}!</h2>
+            </main>
         </div>
     );
 };
