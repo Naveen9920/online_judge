@@ -45,3 +45,10 @@ For beginner-friendly coding problems to help new users practice basic concepts.
 
 **Version Control**: Git and GitHub
 
+## **DEMO**
+### **DEMO VIDEO**
+
+To view the full demo video and a thorough overview, [Click Me](https://www.loom.com/share/81b7d111fd7645a18abcf6d74fa3fffb?sid=bd43f886-1d93-4faa-8b2e-25e8cd04cb8a).
+
+
+
